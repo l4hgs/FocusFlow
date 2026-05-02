@@ -1,0 +1,490 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   App Shell – matches reference layout precisely
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── Shell ────────────────────────────────────────────────────────────────── */
+.shell {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   LEFT SIDEBAR
+   ───────────────────────────────────────────────────────────────────────────── */
+.sidebar {
+  width: 68px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.25rem 0;
+  gap: 0.6rem;
+  background: var(--bg);
+  box-shadow: 4px 0 16px rgba(174, 178, 204, 0.25);
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.sidebar-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow-out-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.sidebar-spacer { flex: 1; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MAIN COLUMN (header + content)
+   ───────────────────────────────────────────────────────────────────────────── */
+.main-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Top nav ──────────────────────────────────────────────────────────────── */
+.top-nav {
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  height: 60px;
+  gap: 2rem;
+  flex-shrink: 0;
+  background: var(--bg);
+  box-shadow: 0 4px 16px rgba(174, 178, 204, 0.2);
+  z-index: 5;
+}
+
+.brand {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.75rem;
+  list-style: none;
+}
+
+.nav-link {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: color var(--t), border-color var(--t);
+  user-select: none;
+}
+.nav-link:hover { color: var(--text-primary); }
+.nav-link.active {
+  color: var(--text-primary);
+  font-weight: 700;
+  border-bottom-color: var(--text-primary);
+}
+
+.nav-end {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.flow-state-btn {
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--r-pill);
+  border: none;
+  background: var(--surface);
+  box-shadow: var(--shadow-out-sm);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: box-shadow var(--t);
+}
+.flow-state-btn:hover { box-shadow: 6px 6px 12px rgba(174,178,204,.55), -4px -4px 8px rgba(255,255,255,.75); }
+.flow-state-btn:active { box-shadow: var(--shadow-in); }
+
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: var(--shadow-out-sm);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ── Content area ─────────────────────────────────────────────────────────── */
+.content {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 310px 1fr;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+.right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+/* ── Section labels ───────────────────────────────────────────────────────── */
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TIMER CARD
+   ───────────────────────────────────────────────────────────────────────────── */
+.timer-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.timer-ring-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.timer-circle-wrap {
+  position: relative;
+  width: 190px;
+  height: 190px;
+}
+
+.timer-circle-bg {
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  box-shadow: var(--shadow-in-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+}
+
+.timer-svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.timer-track {
+  fill: none;
+  stroke: rgba(174, 178, 204, 0.25);
+  stroke-width: 5;
+}
+
+.timer-progress {
+  fill: none;
+  stroke: var(--text-primary);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.timer-time {
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -1px;
+  color: var(--text-primary);
+}
+
+.timer-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.timer-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.timer-start-btn {
+  flex: 1;
+}
+
+.reset-btn {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+  background: var(--surface);
+  box-shadow: var(--shadow-out-sm);
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: box-shadow var(--t);
+  flex-shrink: 0;
+}
+.reset-btn:active { box-shadow: var(--shadow-in); }
+
+.auto-start-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.auto-start-label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   LITERATURE / READER CARD
+   ───────────────────────────────────────────────────────────────────────────── */
+.reader-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.reader-card-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.reader-icon {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.reader-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.reader-card-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.bionic-label {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.bionic-body {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.bionic-body strong {
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.bionic-plain {
+  color: var(--text-secondary);
+}
+
+.bionic-input-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.font-size-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.font-size-icon {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.font-size-icon.lg {
+  font-size: 1.05rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TASK DECOMPOSITION CARD
+   ───────────────────────────────────────────────────────────────────────────── */
+.task-card-header {
+  margin-bottom: 0.25rem;
+}
+
+.task-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.task-card-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 0.15rem;
+  margin-bottom: 1rem;
+}
+
+.task-add-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.task-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  box-shadow: var(--shadow-out-sm);
+  cursor: pointer;
+  transition: box-shadow var(--t);
+  user-select: none;
+}
+.task-pill:hover {
+  box-shadow: 6px 6px 12px rgba(174,178,204,.55), -4px -4px 10px rgba(255,255,255,.75);
+}
+
+.task-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: var(--shadow-out-sm);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--t), box-shadow var(--t);
+}
+
+.task-dot.done {
+  background: var(--text-primary);
+  box-shadow: none;
+}
+
+.task-text {
+  flex: 1;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: color var(--t);
+}
+
+.task-text.done {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.task-delete-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--t);
+}
+.task-pill:hover .task-delete-btn { opacity: 1; }
+
+.decomp-progress-section {
+  margin-top: 0.5rem;
+}
+
+.decomp-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+/* add-task input row */
+.add-task-form {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+/* ── Empty state ──────────────────────────────────────────────────────────── */
+.empty-msg {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* ── Adjust icon btn for sidebar ─────────────────────────────────────────── */
+.sidebar .icon-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+}
