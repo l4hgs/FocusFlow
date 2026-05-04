@@ -1,90 +1,178 @@
-# 🛠️ Team Setup & Git Workflow Guide
+# 🛠️ Team Setup & Contribution Guide
 
-Welcome to the **FocusFlow** team! This guide will walk you through the standard workflow for contributing to the project. Please follow these steps and rules to ensure a smooth collaboration process and prevent merge conflicts.
+Welcome to the **FocusFlow** team! This guide covers everything you need to get the project running locally, understand the codebase structure, and follow our Git workflow so we can collaborate without stepping on each other's work.
 
 ---
 
-## 🚀 The Workflow
+## 📦 Prerequisites
 
-### 1. Clone the Repository
-If you haven't already, clone the repository to your local machine:
+Make sure the following are installed before you begin:
+
+| Tool | Version | Link |
+|---|---|---|
+| Node.js | v18 or higher | https://nodejs.org |
+| .NET SDK | v10 | https://dotnet.microsoft.com/download/dotnet/10.0 |
+| Git | Latest | https://git-scm.com |
+
+---
+
+## ⚙️ Local Setup (First Time)
+
+### 1. Clone the repository
 ```bash
 git clone https://github.com/l4hgs/FocusFlow.git
 cd FocusFlow
 ```
 
-### 2. Update Your Local Main Branch
-Before starting any new work, **always** make sure your local `main` branch is up to date with the remote repository.
+### 2. Start the Backend (C# API)
+Open a terminal in the `backend/` directory:
+```bash
+cd backend
+dotnet run
+```
+> The API will be available at `http://localhost:5000`.  
+> The frontend proxies `/api/*` requests to this address automatically via Vite config.
+
+### 3. Start the Frontend (React + Vite)
+Open a **second** terminal in the `frontend/` directory:
+```bash
+cd frontend
+npm install   # only needed on first run or after pulling new changes
+npm run dev
+```
+> The UI will be available at `http://localhost:5173`.
+
+### 4. Verify Everything Works
+Open [http://localhost:5173](http://localhost:5173). The timer card should show **Work / Break** session badges and the circular ring should animate. If the backend is running, timer state is synced server-side.
+
+---
+
+## 🗂️ Project Structure
+
+```
+FocusFlow/
+├── backend/                    # ASP.NET Core Web API
+│   ├── Controllers/
+│   │   └── FocusController.cs  # All HTTP endpoints (timer, subjects, tasks)
+│   ├── Logic/                  # Business Logic Layer (BLL)
+│   │   ├── TimerEngineService.cs       # Pomodoro timer with work/break sessions
+│   │   ├── SubjectOrchestratorService.cs # Subject & task lifecycle management
+│   │   ├── AdaptiveReaderService.cs    # Bionic text processing
+│   │   └── TaskManagerService.cs       # Legacy flat task manager
+│   ├── Models/                 # Data Layer entities & enums
+│   │   ├── SubjectEntity.cs
+│   │   ├── TaskEntity.cs
+│   │   └── TaskStatus.cs
+│   └── Program.cs              # DI registration & middleware
+│
+└── frontend/                   # React + Vite SPA
+    └── src/
+        ├── App.jsx             # Root shell: sidebar, layout, dark mode
+        ├── App.css             # Component-scoped styles
+        ├── index.css           # Global design system (CSS variables, primitives)
+        └── components/
+            ├── SensoryTimer.jsx    # Pomodoro timer with session controls
+            ├── AdaptiveReader.jsx  # Bionic reading tool
+            └── TaskDecomposer.jsx  # Subject & task orchestrator
+```
+
+---
+
+## 🌿 Git Workflow
+
+### The Golden Rule
+> **Never commit directly to `main`.** It must always contain stable, working code.
+
+### Step-by-step
+
+**1. Always start fresh from `main`**
 ```bash
 git checkout main
 git pull origin main
 ```
 
-### 3. Create a New Branch
-**Never make changes directly to the `main` branch.** Always create a new branch for your feature, bugfix, or task. 
+**2. Create a feature/fix branch**
 
-Use a descriptive naming convention:
-* `feature/your-feature-name` (e.g., `feature/dark-mode`)
-* `bugfix/issue-description` (e.g., `bugfix/timer-sync-error`)
-* `docs/update-readme`
-
+Use a descriptive name:
 ```bash
 git checkout -b feature/your-feature-name
+# Examples:
+# feature/persistence-layer
+# bugfix/timer-drift
+# docs/update-readme
+# style/dark-mode-polish
 ```
-*(The `-b` flag creates the branch and switches to it immediately).*
 
-### 4. Make Changes and Commit
-Make your code changes. When you are ready to save your progress, add and commit your files:
-
+**3. Make changes and commit often**
 ```bash
-# Stage your changes
 git add .
-
-# Commit with a clear, descriptive message
-git commit -m "feat: add user authentication to the backend"
+git commit -m "feat: add break duration stepper to timer"
 ```
 
-### 5. Keep Your Branch Updated (Important!)
-While you are working, other team members might be merging their code into `main`. To avoid massive conflicts later, **frequently update your branch** with the latest changes from `main`.
+Commit message prefixes:
+| Prefix | When to use |
+|---|---|
+| `feat:` | New feature |
+| `fix:` | Bug fix |
+| `refactor:` | Code restructure (no behavior change) |
+| `style:` | CSS/formatting only |
+| `docs:` | Documentation updates |
+| `chore:` | Tooling, deps, config |
 
+**4. Keep your branch updated with `main`**
 ```bash
-# Fetch the latest remote changes
 git fetch origin
-
-# Merge the latest main into your current branch
 git merge origin/main
 ```
-*If there are merge conflicts, Git will pause and ask you to resolve them in your code editor before completing the merge.*
+Do this frequently — the longer you wait, the harder merge conflicts become.
 
-### 6. Push Your Branch to GitHub
-Once your feature is complete and your branch is up to date with `main`, push your branch to the remote repository.
-
-*For the **first** time you push this branch:*
+**5. Push your branch**
 ```bash
+# First push
 git push -u origin feature/your-feature-name
-```
-*For subsequent pushes, you can just type:*
-```bash
+
+# Subsequent pushes
 git push
 ```
 
-### 7. Create a Pull Request (PR)
-1. Go to the GitHub repository in your browser.
-2. You will see a prompt to "Compare & pull request" for your recently pushed branch. Click it.
-3. Add a description of what your code does and request a review from a team member.
-4. Once approved, your branch will be merged into `main`!
+**6. Open a Pull Request**
+1. Go to the [GitHub repo](https://github.com/l4hgs/FocusFlow).
+2. Click **"Compare & pull request"** on your branch.
+3. Describe what the PR does and why.
+4. Request a review from a teammate.
+5. Once approved → **Squash & Merge** into `main`.
 
 ---
 
-## 📜 Golden Rules & Best Practices
+## 🔌 API Reference (Key Endpoints)
 
-1. **Never commit directly to `main`:** `main` should always contain stable, working code.
-2. **Pull frequently:** The longer you wait to `git pull origin main` or `git merge origin/main`, the harder the merge conflicts will be to resolve.
-3. **Commit often, push often:** Don't wait until your entire feature is 100% done to commit. Small, incremental commits are easier to track and revert if something goes wrong.
-4. **Write good commit messages:** Use standard prefixes like:
-   * `feat:` (New feature)
-   * `fix:` (Bug fix)
-   * `docs:` (Documentation changes)
-   * `style:` (Formatting, missing semi-colons, etc.)
-   * `refactor:` (Code changes that neither fix a bug nor add a feature)
-5. **Don't commit broken code:** Ensure the app compiles and runs locally (`dotnet run` and `npm run dev`) before opening a Pull Request.
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/focus/timer` | Get current timer state (includes work/break minutes) |
+| `POST` | `/api/focus/timer/start` | Start the timer |
+| `POST` | `/api/focus/timer/pause` | Pause the timer |
+| `POST` | `/api/focus/timer/tick` | Advance timer by 1 second (called by frontend interval) |
+| `POST` | `/api/focus/timer/reset` | Reset to default work session |
+| `POST` | `/api/focus/timer/switch` | Manually switch work ↔ break |
+| `PUT` | `/api/focus/timer/settings` | Update `{ workMinutes, breakMinutes }` |
+| `GET` | `/api/focus/subjects` | List all subjects with nested tasks |
+| `POST` | `/api/focus/subjects` | Create a new subject |
+| `DELETE` | `/api/focus/subjects/{id}` | Delete a subject and all its tasks |
+| `POST` | `/api/focus/subjects/{id}/tasks` | Add a task to a subject |
+| `PATCH` | `/api/focus/subjects/{id}/tasks/{taskId}/toggle` | Toggle task completion |
+| `DELETE` | `/api/focus/subjects/{id}/tasks/{taskId}` | Delete a task |
+
+---
+
+## ✅ Before Opening a PR Checklist
+
+- [ ] `dotnet build` passes in `backend/` with **0 errors**
+- [ ] `npm run dev` runs without errors in `frontend/`
+- [ ] Feature works in both **light mode** and **dark mode**
+- [ ] Feature works in **offline mode** (backend not running)
+- [ ] No hardcoded `rgba(...)` color values — use CSS variables only
+- [ ] Commit messages follow the prefix convention
+
+---
+
+> Questions? Ping the channel or open a GitHub Discussion. Happy shipping! 🚀

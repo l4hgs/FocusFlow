@@ -103,7 +103,7 @@ export default function TaskManager({ apiOnline }) {
             <div className={`task-dot ${task.done ? 'done' : ''}`} aria-hidden="true">
               {task.done && (
                 <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                  <path d="M1 4l3 3 5-6" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M1 4l3 3 5-6" stroke="var(--bg)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               )}
             </div>

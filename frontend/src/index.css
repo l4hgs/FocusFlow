@@ -24,6 +24,11 @@
   --shadow-in-deep: inset 8px 8px 16px rgba(174, 178, 204, 0.55),
                     inset -8px -8px 16px rgba(255, 255, 255, 0.85);
 
+  --shadow-out-hover: 6px 6px 14px rgba(174,178,204,.6), -6px -6px 14px rgba(255,255,255,.8);
+  --shadow-out-thumb: 2px 2px 5px rgba(174,178,204,.5), -1px -1px 3px rgba(255,255,255,.8);
+  --shadow-sidebar: 4px 0 16px rgba(174, 178, 204, 0.25);
+  --timer-track: rgba(174, 178, 204, 0.25);
+
   /* ── Geometry ──────────────────────────────────────────────────── */
   --r-card:   20px;
   --r-pill:   999px;
@@ -36,6 +41,30 @@
   --t: 200ms ease;
 }
 
+/* ── Dark mode (toggled via .dark on <html>) ─────────────────────────────── */
+.dark {
+  --bg:              #1a1c2e;
+  --surface:         #1e2038;
+
+  --text-primary:    #dde0f0;
+  --text-secondary:  #6e748e;
+  --text-muted:      #484e6a;
+
+  --shadow-out:      8px 8px 18px rgba(8, 10, 20, 0.75),
+                    -6px -6px 14px rgba(38, 42, 68, 0.5);
+  --shadow-out-sm:   5px 5px 10px rgba(8, 10, 20, 0.65),
+                    -4px -4px 8px rgba(38, 42, 68, 0.45);
+  --shadow-in:       inset 5px 5px 10px rgba(8, 10, 20, 0.65),
+                     inset -5px -5px 10px rgba(38, 42, 68, 0.4);
+  --shadow-in-deep:  inset 8px 8px 18px rgba(8, 10, 20, 0.7),
+                     inset -6px -6px 14px rgba(38, 42, 68, 0.45);
+
+  --shadow-out-hover: 6px 6px 16px rgba(8, 10, 20, 0.75), -5px -5px 12px rgba(38, 42, 68, 0.5);
+  --shadow-out-thumb: 2px 2px 5px rgba(8, 10, 20, 0.75), -1px -1px 3px rgba(38, 42, 68, 0.5);
+  --shadow-sidebar: 4px 0 16px rgba(8, 10, 20, 0.75);
+  --timer-track: rgba(38, 42, 68, 0.5);
+}
+
 html { font-size: 16px; }
 
 body {
@@ -44,12 +73,15 @@ body {
   color: var(--text-primary);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  transition: background var(--t), color var(--t);
 }
 
-/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(174, 178, 204, 0.5); border-radius: 2px; }
+/* ── Scrollbar (Hidden by default, still scrollable) ───────────────────────── */
+::-webkit-scrollbar { display: none; }
+* { -ms-overflow-style: none; scrollbar-width: none; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* ─── Primitives ──────────────────────────────────────────────────────────── */
 
@@ -100,7 +132,7 @@ body {
   transition: box-shadow var(--t), transform var(--t);
   white-space: nowrap;
 }
-.pill-btn:hover  { box-shadow: 6px 6px 14px rgba(174,178,204,.6), -6px -6px 14px rgba(255,255,255,.8); }
+.pill-btn:hover  { box-shadow: var(--shadow-out-hover); }
 .pill-btn:active { box-shadow: var(--shadow-in); transform: scale(.98); }
 
 /* inset input */
@@ -144,7 +176,7 @@ body {
   height: 18px;
   border-radius: 50%;
   background: var(--surface);
-  box-shadow: 2px 2px 5px rgba(174,178,204,.5), -1px -1px 3px rgba(255,255,255,.8);
+  box-shadow: var(--shadow-out-thumb);
   transition: transform var(--t), background var(--t);
 }
 .toggle input:checked + .toggle-track { background: var(--surface); }
@@ -189,7 +221,7 @@ body {
   height: 16px;
   border-radius: 50%;
   background: var(--surface);
-  box-shadow: 3px 3px 6px rgba(174,178,204,.5), -2px -2px 4px rgba(255,255,255,.8);
+  box-shadow: var(--shadow-out-thumb);
   cursor: pointer;
 }
 

@@ -8,7 +8,8 @@ builder.Services.AddControllers();
 // Register BLL services as singletons (in-memory state shared across requests)
 builder.Services.AddSingleton<AdaptiveReaderService>();
 builder.Services.AddSingleton<TimerEngineService>();
-builder.Services.AddSingleton<TaskManagerService>();
+builder.Services.AddSingleton<TaskManagerService>();          // legacy
+builder.Services.AddSingleton<SubjectOrchestratorService>(); // Dynamic Subject Orchestrator
 
 // ── CORS – allow Vite dev server ──────────────────────────────────────────────
 builder.Services.AddCors(options =>

@@ -7,6 +7,7 @@
   display: flex;
   height: 100vh;
   overflow: hidden;
+  background: var(--bg);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -20,13 +21,13 @@
   padding: 1.25rem 0;
   gap: 0.6rem;
   background: var(--bg);
-  box-shadow: 4px 0 16px rgba(174, 178, 204, 0.25);
+  box-shadow: var(--shadow-sidebar);
   z-index: 10;
   flex-shrink: 0;
 }
 
 .sidebar-avatar {
-  width: 36px;
+  width: 42px;
   height: 36px;
   border-radius: 10px;
   background: var(--surface);
@@ -34,8 +35,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.82rem;
-  font-weight: 700;
   color: var(--text-secondary);
   margin-bottom: 0.75rem;
 }
@@ -52,107 +51,33 @@
   overflow: hidden;
 }
 
-/* ── Top nav ──────────────────────────────────────────────────────────────── */
-.top-nav {
-  display: flex;
-  align-items: center;
-  padding: 0 2rem;
-  height: 60px;
-  gap: 2rem;
-  flex-shrink: 0;
-  background: var(--bg);
-  box-shadow: 0 4px 16px rgba(174, 178, 204, 0.2);
-  z-index: 5;
-}
 
-.brand {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
-
-.nav-links {
-  display: flex;
-  gap: 1.75rem;
-  list-style: none;
-}
-
-.nav-link {
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  cursor: pointer;
-  padding-bottom: 2px;
-  border-bottom: 2px solid transparent;
-  transition: color var(--t), border-color var(--t);
-  user-select: none;
-}
-.nav-link:hover { color: var(--text-primary); }
-.nav-link.active {
-  color: var(--text-primary);
-  font-weight: 700;
-  border-bottom-color: var(--text-primary);
-}
-
-.nav-end {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.flow-state-btn {
-  padding: 0.5rem 1.1rem;
-  border-radius: var(--r-pill);
-  border: none;
-  background: var(--surface);
-  box-shadow: var(--shadow-out-sm);
-  font-family: var(--font-ui);
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: box-shadow var(--t);
-}
-.flow-state-btn:hover { box-shadow: 6px 6px 12px rgba(174,178,204,.55), -4px -4px 8px rgba(255,255,255,.75); }
-.flow-state-btn:active { box-shadow: var(--shadow-in); }
-
-.user-avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: var(--surface);
-  box-shadow: var(--shadow-out-sm);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-/* ── Content area ─────────────────────────────────────────────────────────── */
+/* ── Content area ────────────────────────────────────────────────────────── */
 .content {
   flex: 1;
   display: grid;
   grid-template-columns: 310px 1fr;
-  gap: 1.25rem;
+  gap: 1.5rem;
   padding: 1.5rem;
+  /* overflow:hidden is required – establishes the BFC that lets flex:1 constrain
+     the grid height. The 1.5rem padding already gives card shadows 24px of room. */
   overflow: hidden;
+  background: var(--bg);
 }
 
 .right-col {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
   overflow-y: auto;
-  padding-right: 2px;
+  /* padding-right/bottom must exceed shadow extent (8px offset + 16px blur = 24px) */
+  padding-right: 1.5rem;
+  padding-bottom: 1.5rem;
+  background: var(--bg);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+.right-col::-webkit-scrollbar { display: none; }
 
 /* ── Section labels ───────────────────────────────────────────────────────── */
 .card-header {
@@ -212,7 +137,7 @@
 
 .timer-track {
   fill: none;
-  stroke: rgba(174, 178, 204, 0.25);
+  stroke: var(--timer-track);
   stroke-width: 5;
 }
 
@@ -277,6 +202,120 @@
   font-size: 0.82rem;
   color: var(--text-secondary);
 }
+
+/* ── Session mode badges ──────────────────────────────────────────────────── */
+.session-mode-row {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 0.25rem;
+}
+
+.session-badge {
+  padding: 0.35rem 1.1rem;
+  border-radius: var(--r-pill);
+  border: none;
+  background: var(--surface);
+  box-shadow: var(--shadow-out-sm);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: box-shadow var(--t), color var(--t);
+  user-select: none;
+}
+.session-badge:hover {
+  color: var(--text-secondary);
+}
+.session-badge--active {
+  box-shadow: var(--shadow-in);
+  color: var(--text-primary);
+  cursor: default;
+}
+
+/* ── Duration steppers ────────────────────────────────────────────────────── */
+.duration-steppers {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--surface);
+  box-shadow: var(--shadow-in);
+  border-radius: var(--r-card);
+  padding: 0.75rem 1rem;
+  margin-top: 0.25rem;
+}
+
+.stepper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.stepper-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.stepper-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stepper-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--surface);
+  box-shadow: var(--shadow-out-sm);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: box-shadow var(--t), color var(--t);
+  flex-shrink: 0;
+}
+.stepper-btn:hover:not(:disabled)  { color: var(--text-primary); box-shadow: var(--shadow-out-hover); }
+.stepper-btn:active:not(:disabled) { box-shadow: var(--shadow-in); }
+.stepper-btn:disabled              { opacity: 0.35; cursor: default; }
+
+.stepper-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: 2rem;
+  text-align: center;
+  line-height: 1;
+}
+
+.stepper-unit {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.stepper-divider {
+  width: 1px;
+  height: 48px;
+  background: var(--text-muted);
+  opacity: 0.2;
+  flex-shrink: 0;
+  margin: 0 0.5rem;
+}
+
 
 /* ─────────────────────────────────────────────────────────────────────────────
    LITERATURE / READER CARD
@@ -404,7 +443,7 @@
   user-select: none;
 }
 .task-pill:hover {
-  box-shadow: 6px 6px 12px rgba(174,178,204,.55), -4px -4px 10px rgba(255,255,255,.75);
+  box-shadow: var(--shadow-out-hover);
 }
 
 .task-dot {
@@ -488,3 +527,261 @@
   height: 42px;
   border-radius: 13px;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TASK DECOMPOSER – Dynamic Subject Orchestrator
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.td-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Subject Tab Bar ──────────────────────────────────────────────────────── */
+.td-subject-bar {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.td-subject-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--r-pill);
+  border: none;
+  background: var(--surface);
+  box-shadow: var(--shadow-out-sm);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: box-shadow var(--t), color var(--t), transform var(--t);
+  white-space: nowrap;
+  max-width: 140px;
+}
+
+.td-subject-tab:hover {
+  box-shadow: var(--shadow-out-hover);
+  transform: translateY(-1px);
+}
+
+.td-subject-tab.active {
+  box-shadow: var(--shadow-in);
+  color: var(--subject-color, var(--text-primary));
+  font-weight: 700;
+}
+
+.td-subject-tab--add {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.td-subject-icon { font-size: 0.95rem; line-height: 1; }
+.td-subject-name { overflow: hidden; text-overflow: ellipsis; }
+
+/* ── New Subject Form (Input Well style) ─────────────────────────────────── */
+.td-subject-form {
+  display: flex;
+  align-items: center;
+  padding: 0.35rem 0.5rem 0.35rem 0.35rem;
+  margin-bottom: 1.25rem;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  box-shadow: var(--shadow-in);
+  overflow: hidden;
+  height: 52px;
+}
+
+.td-subject-form .neu-input {
+  box-shadow: none !important;
+  background: transparent;
+  flex: 1;
+}
+
+.td-subject-form .neu-btn {
+  height: 38px;
+  min-width: 60px;
+  padding: 0 1rem;
+  box-shadow: var(--shadow-out-sm);
+  margin-left: 0.25rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--surface);
+}
+
+/* ── Card Header ──────────────────────────────────────────────────────────── */
+.td-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.td-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.td-card-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.td-header-actions { display: flex; gap: 0.5rem; align-items: center; }
+
+.td-toggle-done {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--r-pill);
+  border: none;
+  background: var(--surface);
+  box-shadow: var(--shadow-out-sm);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: box-shadow var(--t), color var(--t);
+}
+
+.td-toggle-done.active {
+  box-shadow: var(--shadow-in);
+  color: var(--text-primary);
+}
+
+/* ── New Task Input Well (More seamless) ────────────────────────────────── */
+.td-input-well {
+  display: flex;
+  align-items: center;
+  padding: 0.35rem 0.5rem 0.35rem 0.35rem;
+  margin-bottom: 1.25rem;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  box-shadow: var(--shadow-in);
+  height: 52px;
+}
+
+.td-task-input {
+  flex: 1;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.td-add-btn {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  font-weight: 300;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-out-sm);
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: none;
+  cursor: pointer;
+  transition: all var(--t);
+}
+
+.td-add-btn:hover {
+  color: var(--text-primary);
+  box-shadow: var(--shadow-out-hover);
+}
+
+/* ── Task Pill extras (for Decomposer) ───────────────────────────────────── */
+.task-pill--done {
+  opacity: 0.65;
+}
+
+.task-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  opacity: 0;
+  transition: opacity var(--t);
+}
+.task-pill:hover .task-actions { opacity: 1; }
+
+/* ── Delete Subject button ──────────────────────────────────────────────────── */
+.td-delete-subject-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: var(--surface);
+  box-shadow: var(--shadow-out-sm);
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  opacity: 0.6;
+  transition: opacity var(--t), box-shadow var(--t), transform var(--t);
+}
+.td-delete-subject-btn:hover {
+  opacity: 1;
+  box-shadow: var(--shadow-in);
+  transform: scale(1.1);
+}
+
+/* ── Done Section ─────────────────────────────────────────────────────────── */
+.td-done-section {
+  /* padding + neg-margin: keeps overflow:hidden for height animation
+     but gives pill shadows (5px offset + 10px blur = 15px) room to render */
+  overflow: hidden;
+  padding: 15px;
+  margin: -15px;
+  margin-bottom: calc(0.75rem - 15px);
+}
+
+.td-done-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.45rem;
+  padding-left: 0.25rem;
+}
+
+/* ── Shared form elements ─────────────────────────────────────────────────── */
+.neu-btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--r-pill);
+  border: none;
+  background: var(--surface);
+  box-shadow: var(--shadow-out-sm);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: box-shadow var(--t);
+  white-space: nowrap;
+}
+.neu-btn:hover { box-shadow: var(--shadow-out-hover); }
+.neu-btn:active { box-shadow: var(--shadow-in); }
+.neu-btn:disabled { opacity: 0.45; pointer-events: none; }
+

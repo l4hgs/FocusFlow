@@ -66,7 +66,7 @@ export default function AdaptiveReader({ apiOnline }) {
       <div className="reader-card-header">
         <div className="reader-card-left">
           <span className="reader-icon" aria-hidden="true">👁</span>
-          <h2 className="reader-title">Literature Review</h2>
+          <h2 className="reader-title">Adaptive Reader</h2>
         </div>
         <div className="reader-card-right">
           <span className="bionic-label">Bionic Mode</span>
