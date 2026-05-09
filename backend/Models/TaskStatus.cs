@@ -13,6 +13,6 @@ namespace FocusFlow.Models
         Done = 1,
 
         /// <summary>Task has been deleted (removed from the Subject).</summary>
-        Deleted = 4,
+        Deleted = 2,
     }
 }

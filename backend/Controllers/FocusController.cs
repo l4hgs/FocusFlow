@@ -52,7 +52,7 @@ namespace FocusFlow.API.Controllers
         public IActionResult TickTimer() => Ok(_timer.Tick());
 
         [HttpPost("timer/reset")]
-        public IActionResult ResetTimer() => Ok(_timer.Reset());
+        public IActionResult ResetTimer() => Ok(_timer.ResetAndSnapshot());
 
         /// <summary>
         /// POST /api/focus/timer/switch

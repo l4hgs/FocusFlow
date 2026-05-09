@@ -9,6 +9,9 @@ namespace FocusFlow.Models
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Description { get; set; } = string.Empty;
 
+        /// <summary>Priority level 1 (low) to 3 (high). Used for task ordering.</summary>
+        public int PriorityLevel { get; set; } = 1;
+
         /// <summary>Foreign key – the Subject this task belongs to.</summary>
         public Guid SubjectId { get; set; }
 
@@ -21,9 +24,6 @@ namespace FocusFlow.Models
             get => Status == TaskStatus.Done;
             set => Status = value ? TaskStatus.Done : TaskStatus.Active;
         }
-
-        /// <summary>1 = Low, 2 = Medium, 3 = High</summary>
-        public int PriorityLevel { get; set; } = 1;
 
         /// <summary>Optional sub-tasks (nested decomposition).</summary>
         public List<TaskEntity> SubTasks { get; set; } = new();
