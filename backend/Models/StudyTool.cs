@@ -23,7 +23,7 @@ namespace FocusFlow.Models
         private string _toolName = string.Empty;
 
         /// <summary>
-        /// Display name of the tool. Readable publicly; writable only by subclasses.
+        /// Displays the tool name; subclasses overwrites this to set their specific name.
         /// </summary>
         public string ToolName
         {

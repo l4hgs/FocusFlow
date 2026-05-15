@@ -9,7 +9,7 @@ namespace FocusFlow.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        /// <summary>Human-readable label displayed on the Subject card (e.g., "Biology Lab").</summary>
+        /// <summary>Determines what subject for task decomposer</summary>
         public string Name { get; set; } = string.Empty;
 
         /// <summary>Accent color hex for the Subject card UI (e.g., "#6C8EBF").</summary>
