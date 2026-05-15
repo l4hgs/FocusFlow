@@ -1,158 +1,403 @@
-<h1 align="center">
+<div align="center">
   <br>
-  ↺ &nbsp;FocusFlow
-  <br>
-</h1>
+  <img src="focusflow-images/focusflow-logo.jpg" alt="FocusFlow Logo" width="180" />
+  <h1>↺ &nbsp;FocusFlow</h1>
+  <h4>A distraction-free, Neumorphic productivity suite for deep work — built with ASP.NET Core and React.</h4>
 
-<h4 align="center">A distraction-free, Neumorphic productivity suite for deep work — built with ASP.NET Core and React.</h4>
-
-<p align="center">
-  <a href="#features">Features</a> •
-  <a href="#tech-stack">Tech Stack</a> •
-  <a href="#how-to-run-locally">Run Locally</a> •
-  <a href="#architecture">Architecture</a> •
-  <a href="#ui-design-system">UI Design</a>
-</p>
+  <p align="center">
+    <a href="#-features">Features</a> •
+    <a href="#-tech-stack">Tech Stack</a> •
+    <a href="#-getting-started">Getting Started</a> •
+    <a href="#-system-architecture">Architecture</a> •
+    <a href="#-ui-design-system">UI Design</a> 
+  </p>
+</div>
 
 ---
 
-## Description
+**FocusFlow** is a minimalist productivity portal that merges a server-synced Pomodoro timer, a Bionic speed-reader, and a subject-based task orchestrator into a single, distraction-free workspace. The UI is built on a fully custom monochromatic Neumorphic design system with pixel-perfect dark mode support — zero hardcoded color values, all depth from shadows.
 
-**FocusFlow** is a minimalist productivity portal that combines a server-synced Pomodoro timer, a bionic speed-reader, and a subject-based task orchestrator into a single, distraction-free interface. The UI is built on a fully custom monochromatic Neumorphic design system with full dark mode support.
+> ⭐ If FocusFlow helps you stay in the zone, give it a star — it helps the project grow!
 
 ---
 
-## Features
+## 📸 Screenshots
+
+| Deep Focus Timer | Adaptive Reader | Task Decomposer |
+|:---:|:---:|:---:|
+| ![Deep Focus Timer](focusflow-images/screenshot-timer.png) | ![Adaptive Reader](focusflow-images/screenshot-reader.png) | ![Task Decomposer](focusflow-images/screenshot-tasks.png) |
+
+---
+
+## Table of Contents
+
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [System Architecture](#-system-architecture)
+- [UI Design System](#-ui-design-system)
+- [Roadmap](#-roadmap)
+
+---
+
+## ✨ Features
 
 ### ⏱️ Deep Focus Timer (Pomodoro)
-- Circular SVG progress ring synced to a C# backend — eliminates browser tab-throttling drift.
-- **Configurable work and break durations** via ± stepper controls (work: 1–120 min, break: 1–60 min).
-- **Work / Break session badges** — click to manually switch sessions at any time; badges auto-update when a session ends automatically.
-- **Three-tone ascending chime** (Web Audio API, no external file) plays when a session completes.
-- Auto-start toggle for continuous Pomodoro flow.
-- Stable `setInterval` using React refs — zero jitter during countdown.
-- Full offline fallback when backend is unavailable.
+
+A server-authoritative Pomodoro timer that eliminates browser tab-throttling drift by delegating all time-keeping to the C# backend.
+
+- **SVG progress ring** — circular countdown fully synced with `GET /api/focus/timer`
+- **Configurable sessions** — work (1–120 min) and break (1–60 min) via ± stepper controls
+- **Session badges** — click to manually switch Work ↔ Break at any time; auto-update on session end
+- **Three-tone ascending chime** — synthesized via Web Audio API, no external files required
+- **Auto-start toggle** — continuous Pomodoro flow with zero interruption
+- **Stable tick** — `setInterval` stabilized through React `useRef`; zero jitter during countdown
+- **Offline fallback** — runs fully client-side if the backend is unavailable
+
+---
 
 ### 📖 Adaptive Reader
-- Implements a **Bionic Reading** algorithm: bolds the first 40% of each word to anchor visual fixation.
-- Reduces subvocalization and increases reading throughput.
-- Adjustable font size via a range slider.
-- Toggle between processed (bionic) and plain text views.
+
+An in-browser reading accelerator that implements the **Bionic Reading** algorithm to reduce subvocalization and increase throughput.
+
+- **Bionic boldening** — first 40% of each word is bolded to anchor visual fixation
+- **Toggle view** — switch between bionic-processed and plain text instantly
+- **Adjustable font size** — range slider for comfortable reading at any size
+
+---
 
 ### 📋 Task Decomposer (Subject Orchestrator)
-- Create **Subjects** (e.g., "Calculus II", "Biology") as containers for related tasks.
-- Add, complete, and delete individual tasks within each subject.
-- **Delete a subject** to remove it and all its tasks at once.
-- Live **Decomposition Progress** bar per subject (% of tasks completed).
-- Smooth Framer Motion animations for task state transitions.
-- Task lifecycle: **Active → Done** (toggle) or **Deleted** (permanent removal).
 
-### 🎨 UI & Design
-- **Neumorphic design system** — entirely monochromatic, all depth from light/shadow variables.
-- **Dark mode** toggle (sun/moon) in the sidebar; smooth CSS variable transition.
-- All shadows are CSS variables — zero hardcoded `rgba` values, so dark mode is pixel-perfect.
-- Hidden scrollbars globally (still scrollable) for an edge-to-edge, seamless layout.
-- Sidebar shows a loop logo, dashboard icon, and dark mode toggle only — no nav bar clutter.
-- Loop SVG logo in sidebar uses `currentColor` — adapts to dark mode automatically.
+A subject-centric task manager designed for students and focused workers who group tasks by domain.
 
-### 🔌 Offline / Graceful Degradation
-- The app runs fully in the browser if the backend is down.
-- All timers, tasks, and reader functionality work client-side.
-- The frontend polls `GET /api/focus/timer` every 10 seconds and re-syncs automatically when the backend comes back online.
+- **Subjects as containers** — create contexts like "Calculus II" or "Biology" to group related tasks
+- **Full task lifecycle** — add, complete (toggle), or permanently delete tasks within any subject
+- **Cascade delete** — removing a subject deletes all its tasks in a single action
+- **Decomposition progress bar** — live `% of tasks completed` per subject, updated on every state change
+- **Framer Motion animations** — smooth enter/exit transitions for task state changes
+- **Task states**: `Active` → `Done` (toggle) or `Deleted` (permanent)
 
 ---
 
-## Tech Stack
+### 🎨 Neumorphic Design System
 
-**Frontend**
-- [React 18](https://reactjs.org/) + [Vite](https://vitejs.dev/)
-- [Framer Motion](https://www.framer.com/motion/) — task list animations
-- Pure CSS custom design system (Neumorphic, CSS variables, no Tailwind)
-- Web Audio API — session chime (no external audio files)
+A fully custom monochromatic design system — all depth is derived from light and shadow variables only.
 
-**Backend**
-- [ASP.NET Core Web API (.NET 10)](https://dotnet.microsoft.com/apps/aspnet/apis) — C#
-- In-memory singleton services (3-Layer Architecture)
-- No database dependency (stateless-friendly for easy persistence migration)
+- **Zero hardcoded `rgba` values** — all shadows are CSS custom properties
+- **Dark mode toggle** — `sun/moon` icon in sidebar; seamless CSS variable override via `.dark` on `<html>`
+- **Hidden scrollbars** — globally suppressed for an edge-to-edge, seamless layout (still scrollable)
+- **`currentColor` SVG logo** — adapts to dark/light mode automatically with no JS
+- **Sidebar** — loop logo, dashboard icon, and dark mode toggle only; intentionally minimal
 
 ---
 
-## How To Run Locally
+## 🛠 Tech Stack
+
+| Layer | Technology | Purpose |
+|---|---|---|
+| **Frontend** | React 18 + Vite | Component rendering, dev server, HMR |
+| **Animations** | Framer Motion | Task list enter/exit transitions |
+| **Styling** | Pure CSS (custom properties) | Neumorphic design system, dark mode |
+| **Audio** | Web Audio API | Session-complete chime (no external files) |
+| **Backend** | ASP.NET Core Web API (.NET 10) | Server-authoritative timer, REST API |
+| **State** | In-memory singleton services | Stateless-friendly, no DB dependency |
+| **Architecture** | 3-Layer (Presentation / BLL / Data) | Clear separation of concerns |
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) v18+
-- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 
-### 1. Clone
+| Tool | Version |
+|---|---|
+| [Node.js](https://nodejs.org/) | v18+ |
+| [.NET SDK](https://dotnet.microsoft.com/download/dotnet/10.0) | 10.0+ |
+| Git | any |
+
+---
+
+### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/l4hgs/FocusFlow.git
 cd FocusFlow
 ```
 
+---
+
 ### 2. Start the Backend
+
 ```bash
 cd backend
 dotnet run
 ```
-> API runs on `http://localhost:5000`. The Vite dev proxy forwards all `/api/*` requests automatically.
 
-### 3. Start the Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-```
-> UI runs on `http://localhost:5173`.
+> The API starts at `http://localhost:5000`. The Vite dev proxy automatically forwards all `/api/*` requests — no CORS configuration needed during development.
 
-> **Tip:** If you get a build lock error (`FocusFlow.API.exe` is locked), run:
+> **Tip (Windows):** If you see a build lock error because `FocusFlow.API.exe` is already running:
 > ```powershell
 > Stop-Process -Name "FocusFlow.API" -Force
 > ```
 
 ---
 
-## Architecture
+### 3. Start the Frontend
 
-FocusFlow enforces a strict **3-Layer Architecture**:
-
-```
-Presentation Layer          Business Logic Layer        Data Layer
-──────────────────          ────────────────────        ──────────
-FocusController.cs    →     TimerEngineService          StudyTool (base)
-  /api/focus/timer          SubjectOrchestratorService  SubjectEntity
-  /api/focus/subjects       AdaptiveReaderService       TaskEntity
-  /api/focus/tasks          TaskManagerService          TaskStatus (enum)
-
-React Frontend        →     (thin client, no BLL)
-  SensoryTimer.jsx
-  AdaptiveReader.jsx
-  TaskDecomposer.jsx
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-**Key design decisions:**
-- `TimerEngineService` holds `_workDuration` / `_breakDuration` in seconds. Every `GET /timer` response includes `workMinutes` and `breakMinutes` so the frontend always knows the current config.
-- `SubjectOrchestratorService` uses **Aggregation**: a `SubjectEntity` owns a collection of `TaskEntity` objects. Task deletion is permanent; there is no archive/schedule state.
-- `TaskStatus` enum: `Active`, `Done`, `Deleted` — simplified lifecycle (archive/schedule removed).
-- The React `tick` callback has an **empty dependency array** and reads all mutable values through `useRef` — this keeps `setInterval` stable and prevents countdown jitter.
+> The UI starts at `http://localhost:5173`.
 
 ---
 
-## UI Design System
+### Quick Reference
 
-All design tokens live in `frontend/src/index.css` as CSS custom properties:
+| Command | What it does |
+|---|---|
+| `dotnet run` | Starts ASP.NET Core API on port 5000 |
+| `npm run dev` | Starts Vite dev server on port 5173 |
+| `npm run build` | Produces optimized production bundle |
+| `dotnet publish` | Produces self-contained .NET binary |
+
+[↑ Back to top](#table-of-contents)
+
+---
+
+## 🏗 System Architecture
+
+FocusFlow follows a strict **3-Layer Architecture** on the backend, with the React frontend acting as a thin client that owns no business logic.
+
+---
+
+### Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                          CLIENT (Browser)                           │
+│                                                                     │
+│   ┌──────────────┐   ┌──────────────────┐   ┌──────────────────┐    │
+│   │ SensoryTimer │   │  AdaptiveReader  │   │ TaskDecomposer   │    │
+│   │    .jsx      │   │      .jsx        │   │     .jsx         │    │
+│   └──────┬───────┘   └────────┬─────────┘   └─────────┬────────┘    │
+│          │                    │                       │             │
+│          └────────────────────┼───────────────────────┘             │
+│                               │  HTTP / JSON (via Vite proxy)       │
+└───────────────────────────────┼─────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                     PRESENTATION LAYER  (ASP.NET Core)              │
+│                                                                     │
+│              ┌──────────────────────────────────┐                   │
+│              │       FocusController.cs         │                   │
+│              │  GET  /api/focus/timer           │                   │
+│              │  POST /api/focus/timer/start     │                   │
+│              │  POST /api/focus/timer/stop      │                   │
+│              │  GET  /api/focus/subjects        │                   │
+│              │  POST /api/focus/subjects        │                   │
+│              │  DELETE /api/focus/subjects/{id} │                   │
+│              │  GET  /api/focus/tasks           │                   │
+│              │  POST /api/focus/tasks           │                   │
+│              │  PATCH /api/focus/tasks/{id}     │                   │
+│              │  DELETE /api/focus/tasks/{id}    │                   │
+│              └──────────────┬───────────────────┘                   │
+└─────────────────────────────┼───────────────────────────────────────┘
+                              │  Injected via DI (singleton)
+                              ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                  BUSINESS LOGIC LAYER  (Services)                   │
+│                                                                     │
+│  ┌──────────────────┐  ┌────────────────────────────┐               │
+│  │TimerEngineService│  │ SubjectOrchestratorService │               │
+│  │                  │  │                            │               │
+│  │ _workDuration    │  │ CreateSubject()            │               │
+│  │ _breakDuration   │  │ DeleteSubject()            │               │
+│  │ _isRunning       │  │ GetAllSubjects()           │               │
+│  │ _sessionType     │  └─────────────┬──────────────┘               │
+│  │                  │                │  uses                        │
+│  │ Start()          │  ┌─────────────▼──────────────┐               │
+│  │ Stop()           │  │    TaskManagerService      │               │
+│  │ GetState()       │  │                            │               │
+│  └──────────────────┘  │ AddTask()                  │               │
+│                        │ CompleteTask()             │               │
+│  ┌──────────────────┐  │ DeleteTask()               │               │
+│  │AdaptiveReaderSvc │  │ GetTasksBySubject()        │               │
+│  │                  │  └────────────────────────────┘               │
+│  │ ProcessText()    │                                               │
+│  │ ApplyBionic()    │                                               │
+│  └──────────────────┘                                               │
+└─────────────────────────────┬───────────────────────────────────────┘
+                              │  Reads / writes
+                              ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                      DATA LAYER  (Entities)                         │
+│                                                                     │
+│   ┌──────────────┐   ┌──────────────────┐   ┌──────────────────┐    │
+│   │  StudyTool   │   │  SubjectEntity   │   │   TaskEntity     │    │
+│   │   (base)     │◄──│                  │◄──│                  │    │
+│   │              │   │  Id: Guid        │   │  Id: Guid        │    │
+│   │  Id          │   │  Name: string    │   │  SubjectId: Guid │    │
+│   │  CreatedAt   │   │  Tasks: List<>   │   │  Title: string   │    │
+│   └──────────────┘   └──────────────────┘   │  Status: enum    │    │
+│                                             └──────────────────┘    │
+│                      ┌──────────────────┐                           │
+│                      │   TaskStatus     │                           │
+│                      │   (enum)         │                           │
+│                      │  Active          │                           │
+│                      │  Done            │                           │
+│                      │  Deleted         │                           │
+│                      └──────────────────┘                           │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### UML Class Diagram
+
+![FocusFlow UML Class Diagram](focusflow-images/focusflow-uml.png)
+
+---
+
+### Component Interaction (UML Sequence — Pomodoro Tick)
+
+The frontend polls the backend every 10 seconds to stay in sync. Below is the request lifecycle for a single timer poll:
+
+```
+Browser (SensoryTimer.jsx)          ASP.NET Core (FocusController)       TimerEngineService
+          │                                      │                                │
+          │── GET /api/focus/timer ─────────────►│                                │
+          │                                      │── GetState() ─────────────────►│
+          │                                      │                                │── compute elapsed
+          │                                      │◄── TimerStateDto ──────────────│
+          │                                      │    { isRunning,                │
+          │                                      │      elapsed,                  │
+          │                                      │      workMinutes,              │
+          │                                      │      breakMinutes,             │
+          │                                      │      sessionType }             │
+          │◄── 200 OK (JSON) ─────────────────── │                                │
+          │                                      │                                │
+          │  [React reconciles SVG ring]         │                                │
+          │  [No re-render if state unchanged]   │                                │
+```
+
+---
+
+### Component Interaction (UML Sequence — Task Lifecycle)
+
+```
+Browser (TaskDecomposer.jsx)         FocusController          SubjectOrchestratorService   TaskManagerService
+          │                                │                            │                         │
+          │── POST /api/focus/subject s───►│                            │                         │
+          │   { name: "Calculus II" }      │── CreateSubject() ────────►│                         │
+          │                                │                            │── new SubjectEntity     │
+          │◄── 201 Created ────────────────│◄── SubjectDto ─────────────│                         │
+          │                                │                            │                         │
+          │── POST /api/focus/tasks ──────►│                            │                         │
+          │   { subjectId, title }         │── AddTask() ────────────────────────────────────────►│
+          │                                │                            │           new TaskEntity│
+          │◄── 201 Created ────────────────│◄─────────────────────────────────────── TaskDto ─────│
+          │                                │                            │                         │
+          │── PATCH /api/focus/tasks/{id}─►│                            │                         │
+          │   { status: "Done" }           │── CompleteTask() ───────────────────────────────────►│
+          │                                │                            │        status = Done    │
+          │◄── 200 OK ─────────────────────│◄─────────────────────────────────────── TaskDto ─────│
+          │                                │                            │                         │
+          │  [Progress bar recalculates]   │                            │                         │
+```
+
+---
+
+### Architecture Layers Summary
+
+| Layer | Responsibility | Key Classes |
+|---|---|---|
+| **Presentation** | HTTP routing, request/response mapping, input validation | `FocusController.cs` |
+| **Business Logic** | Domain rules, timer state, task lifecycle, bionic processing | `TimerEngineService`, `SubjectOrchestratorService`, `TaskManagerService`, `AdaptiveReaderService` |
+| **Data** | Entity definitions, enums, in-memory collections | `SubjectEntity`, `TaskEntity`, `StudyTool`, `TaskStatus` |
+| **Frontend (Client)** | UI rendering, user interaction, polling, offline fallback | `SensoryTimer.jsx`, `AdaptiveReader.jsx`, `TaskDecomposer.jsx` |
+
+---
+
+### Key Design Decisions
+
+**Server-authoritative timer**
+`TimerEngineService` holds `_workDuration` and `_breakDuration` in seconds. Every `GET /timer` response includes `workMinutes` and `breakMinutes`, so the frontend always has a source of truth — browser tab throttling cannot cause drift.
+
+**Aggregation over composition in task management**
+`SubjectOrchestratorService` uses **Aggregation**: a `SubjectEntity` owns a `List<TaskEntity>`. Cascade delete is O(1) from the subject — no orphaned task cleanup needed.
+
+**Stable React interval**
+The `tick` callback has an **empty dependency array** and reads all mutable values through `useRef`. This keeps `setInterval` stable and prevents countdown jitter during re-renders.
+
+**No database dependency**
+Services are registered as in-memory singletons. The architecture is designed so swapping to EF Core + a real DB requires only a Data Layer change — the BLL and Presentation layers are unaffected.
+
+[↑ Back to top](#table-of-contents)
+
+---
+
+## 🎨 UI Design System
+
+All design tokens live in `frontend/src/index.css` as CSS custom properties. Dark mode is activated by adding `.dark` to `<html>` — every variable overrides automatically with no JavaScript color logic.
+
+### Design Tokens
 
 | Variable | Purpose |
 |---|---|
-| `--bg` / `--surface` | Base and card background (same color — depth from shadows only) |
-| `--shadow-out` / `--shadow-out-sm` | Raised element shadows |
-| `--shadow-in` / `--shadow-in-deep` | Pressed / inset shadows |
+| `--bg` / `--surface` | Base and card background (same value — depth from shadows only) |
+| `--shadow-out` / `--shadow-out-sm` | Raised element shadows (neumorphic lift) |
+| `--shadow-in` / `--shadow-in-deep` | Pressed / inset shadows (neumorphic depression) |
 | `--shadow-out-hover` | Hover-state raised shadow |
-| `--shadow-sidebar` | Sidebar edge shadow |
-| `--timer-track` | SVG circular ring track color |
-| `--text-primary` / `--text-secondary` / `--text-muted` | Typography hierarchy |
+| `--shadow-sidebar` | Sidebar right-edge shadow |
+| `--timer-track` | SVG circular progress ring track color |
+| `--text-primary` | Primary readable text |
+| `--text-secondary` | Supporting labels and descriptions |
+| `--text-muted` | Disabled states, placeholders |
 
-Dark mode is triggered by adding `.dark` to `<html>` — all variables override automatically.
+### Dark Mode
+
+```css
+/* Light (default) */
+:root {
+  --bg: #e0e5ec;
+  --surface: #e0e5ec;
+  --shadow-out: 6px 6px 12px #b8bec7, -6px -6px 12px #ffffff;
+  --shadow-in: inset 4px 4px 8px #b8bec7, inset -4px -4px 8px #ffffff;
+  --text-primary: #2d3748;
+}
+
+/* Dark — toggled via .dark on <html> */
+html.dark {
+  --bg: #1e2228;
+  --surface: #1e2228;
+  --shadow-out: 6px 6px 12px #16191e, -6px -6px 12px #262d36;
+  --shadow-in: inset 4px 4px 8px #16191e, inset -4px -4px 8px #262d36;
+  --text-primary: #e2e8f0;
+}
+```
+
+[↑ Back to top](#table-of-contents)
 
 ---
 
-> Built with focus. ↺
+## 🗺 Roadmap
+
+- [ ] **Persistent storage** — swap in-memory singletons for EF Core + SQLite/PostgreSQL
+- [ ] **User accounts** — JWT authentication for multi-user support
+- [ ] **Task priorities** — High / Medium / Low with visual indicators
+- [ ] **Focus analytics** — Session history, streaks, daily focus time chart
+- [ ] **Keyboard shortcuts** — Power-user controls for timer and task actions
+- [ ] **PWA support** — Installable, offline-first via service worker
+- [ ] **Export** — Download tasks and session logs as CSV / JSON
+
+[↑ Back to top](#table-of-contents)
+
+---
+
+<div align="center">
+  <sub>Built with focus. ↺</sub>
+</div>
