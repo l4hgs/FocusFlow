@@ -1,6 +1,6 @@
 <div align="center">
   <br>
-  <img src="focusflow-images/focusflow-logo.jpg" alt="FocusFlow Logo" width="180" />
+  <img src="focusflow-images/focusflow-logo.png" alt="FocusFlow Logo" width="180" />
   <h1>↺ &nbsp;FocusFlow</h1>
   <h4>A distraction-free, Neumorphic productivity suite for deep work — built with ASP.NET Core and React.</h4>
 
